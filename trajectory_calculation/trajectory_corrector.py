@@ -25,3 +25,4 @@ while True:
     current_height = flight_info.mean_altitude
     vessel.auto_pilot.target_pitch_and_heading(90, 90)
     vessel.auto_pilot.target_pitch_and_heading(calculate_angle(current_height), 90)
+
