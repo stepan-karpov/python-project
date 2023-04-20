@@ -32,7 +32,7 @@ class Trajectory:
     cls.check()
     r_y = []
     r_x = []
-    for i in range(0, cls.h_ap, H_PLOT_STEP):
+    for i in range(0, cls.L, H_PLOT_STEP):
       r_y.append(cls.r_y(i))
       r_x.append(i)
     return r_x, r_y

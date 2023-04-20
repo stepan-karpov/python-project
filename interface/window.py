@@ -100,6 +100,10 @@ class StartButton():
   def on_click(self):
     if (self.in_flight):
       sys.exit()
+    
+    Info.vessel.control.throttle=0.45
+    print("Launch!")
+
 
     self.in_flight = True
     self.start_button.setText("Launched!")
@@ -135,9 +139,8 @@ class MainWindow(QMainWindow):
     if (not self.start_button.in_flight):
       return
 
-    self.trajectory_plot.add_predict_point((Info.get_r_x(), Info.get_r_y()))
+    self.trajectory_plot.add_predict_point(Info.get_launch_coordinates())
 
-    print("hey")
 
   def __init__(self):
     self.app = QApplication(sys.argv)
