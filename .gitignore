@@ -2,3 +2,5 @@
 .vscode
 krpc
 interface/__pycache__
+flight_info/__pycache__
+trajectory_calculation/__pycache__
