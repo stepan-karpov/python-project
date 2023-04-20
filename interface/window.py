@@ -1,11 +1,11 @@
 import sys
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QPalette, QColor, QDesktopServices
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QPalette, QColor
+from PyQt5.QtCore import Qt
 import pyqtgraph
-from interface_constants import *
-# from ..\trajectory_calculation.trajectory_calculation_constants import *
-from trajectory_calculation_constants import *
+from interface.interface_constants import *
+from interface.trajectory_calculation_constants import *
+
 
 class Plot():
   def __init__(self, title, y_name, x_name):
@@ -102,10 +102,11 @@ class MainWindow(QMainWindow):
     return scroll
 
   def __init__(self):
+    self.app = QApplication(sys.argv)
     super(MainWindow, self).__init__()
 
     self.setWindowTitle("KSP Launcher")
-    screen = app.primaryScreen()
+    screen = self.app.primaryScreen()
     size = screen.size()
 
     self.width = WIDTH
@@ -128,11 +129,11 @@ class MainWindow(QMainWindow):
     box.setLayout(layout)
 
     self.setCentralWidget(box)
+  
+  def start_application(self):
+    self.show()
+
+    sys.exit(self.app.exec())
 
 
-app = QApplication(sys.argv)
 
-window = MainWindow()
-window.show()
-
-sys.exit(app.exec())
