@@ -4,53 +4,38 @@ import math
 class Info:
   conn = krpc.connect(name='Vessel')
   vessel = conn.space_center.active_vessel
-  start_coordinated = (
+  start_coordinates = (
     vessel.position(vessel.orbit.body.reference_frame)[2],
     vessel.position(vessel.orbit.body.reference_frame)[0],
   )
-  rotation_angle = -math.pi - math.atan(start_coordinated[1] / start_coordinated[0])
+  rotation_angle = -math.pi - math.atan(start_coordinates[1] / start_coordinates[0])
 
   rotation_matrix = (
     (math.cos(rotation_angle), -math.sin(rotation_angle)),
     (math.sin(rotation_angle), math.cos(rotation_angle))
   )
 
-  kerbin_radius = start_coordinated[0] * rotation_matrix[0][0] + start_coordinated[1] * rotation_matrix[0][1]
+  kerbin_radius = start_coordinates[0] * rotation_matrix[0][0] + start_coordinates[1] * rotation_matrix[0][1]
 
   @classmethod
-  def get_kerbin_coordinated(cls):
+  def get_kerbin_coordinates(cls):
     return cls.vessel.position(cls.vessel.orbit.body.reference_frame)
   
   @classmethod
-  def kerbin_to_launch_coordinated(cls, current_kerbin_coordinated):
+  def kerbin_to_launch_coordinates(cls, current_kerbin_coordinates):
     rotated_coordinates = (
-      current_kerbin_coordinated[0] * cls.rotation_matrix[0][0] + current_kerbin_coordinated[1] * cls.rotation_matrix[0][1] - cls.kerbin_radius, 
-      -current_kerbin_coordinated[0] * cls.rotation_matrix[1][0] - current_kerbin_coordinated[1] * cls.rotation_matrix[1][1], 
+      -current_kerbin_coordinates[0] * cls.rotation_matrix[1][0] - current_kerbin_coordinates[1] * cls.rotation_matrix[1][1], 
+      current_kerbin_coordinates[0] * cls.rotation_matrix[0][0] + current_kerbin_coordinates[1] * cls.rotation_matrix[0][1] - cls.kerbin_radius, 
     )
     return rotated_coordinates
 
   @classmethod
-  def get_launch_coordinated(cls):
-    current_kerbin_coordinated = (
+  def get_launch_coordinates(cls):
+    current_kerbin_coordinates = (
       cls.vessel.position(cls.vessel.orbit.body.reference_frame)[2],
       cls.vessel.position(cls.vessel.orbit.body.reference_frame)[0],
     )
-    return cls.kerbin_to_launch_coordinated(current_kerbin_coordinated)
-
-  @classmethod
-  def get_r_y(cls):
-    return cls.vessel.flight().mean_altitude
-
-  @classmethod
-  def info(cls):
-    print(cls.start_coordinated)
-    print(cls.rotation_angle)
-    print(cls.kerbin_radius)
-    print(cls.get_launch_coordinated())
-
-  @classmethod
-  def get_r_x(cls):
-    return 100500
+    return cls.kerbin_to_launch_coordinates(current_kerbin_coordinates)
 
 
 
