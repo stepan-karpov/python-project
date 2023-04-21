@@ -21,7 +21,9 @@ class Trajectory:
   l_end = int(math.pow(h_end / h_ap, 1 / p1) * l)
   
   # speed of the vessel configurations
-  # p2 = 
+  p2 = 0.4
+  v_vend = 500
+  v_hend = 500
 
   @staticmethod
   def calculate_trajectory() -> None:
@@ -87,8 +89,8 @@ class Trajectory:
     return (r_y, ttw)
 
   @staticmethod
-  def v_x(r_x):
-    return 300
+  def v_x(r_y: float) -> float:
+    return math.pow(r_y / Trajectory.h_end, 1 / Trajectory.p2) * Trajectory.v_hend
 
   @staticmethod
   def get_v_x_r_y() -> (list, list):
@@ -106,8 +108,8 @@ class Trajectory:
     return (r_y, v_x)
 
   @staticmethod
-  def v_y(r_x):
-    return 300
+  def v_y(r_y: float) -> float:
+    return math.pow(r_y / Trajectory.h_end, Trajectory.p2) * Trajectory.v_vend
 
   @staticmethod
   def get_v_y_r_y() -> (list, list):
