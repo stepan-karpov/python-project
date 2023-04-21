@@ -52,41 +52,50 @@ class Info:
     return Info.kerbin_to_launch_coordinates(current_kerbin_coordinates)
   
   @staticmethod
-  def get_mass():
+  def get_mass() -> float:
+    """ returns mass of the vessel """
     return Info.vessel.mass
 
   @staticmethod
-  def get_thrust():
+  def get_thrust() -> float:
+    """ returns thrust of the vessels (Nextons) """
     return Info.vessel.thrust
 
   @staticmethod
-  def get_g():
+  def get_g() -> float:
+    """ returns g in the current height """
     rel = (Info.get_launch_coordinates()[1] + Info.kerbin_radius) / Info.kerbin_radius
     rel = math.pow(rel, -2)
     return rel * G_CONSTANT
   
   @staticmethod
-  def get_speed():
+  def get_speed() -> float:
+    """ returns speed of the vessel relatively to the origin """
     return Info.vessel.flight(Info.vessel.orbit.body.reference_frame).speed
 
   @staticmethod
-  def get_pressure():
+  def get_pressure() -> float:
+    """ returns pressure at the current height """
     return Info.vessel.flight().static_pressure
 
   @staticmethod
-  def get_ttw():
+  def get_ttw() -> float:
+    """ returns ttw on the current moment """
     return Info.vessel.flight().g_force
 
   @staticmethod
-  def get_height():
+  def get_height() -> float:
+    """ returns current height """
     return Info.get_launch_coordinates()[1]
 
   @staticmethod
-  def get_ttw_coordinates():
+  def get_ttw_coordinates() -> (float, float):
+    """ returns pair (height, ttw) for plot drawing """
     return (Info.get_launch_coordinates()[1], Info.vessel.flight().g_force)
 
   @staticmethod
-  def get_launch_velocity():
+  def get_launch_velocity() -> float:
+    """ returns launch velocity in launch system coordinates """
     kerbin_velocity = Info.vessel.velocity(Info.vessel.orbit.body.reference_frame)
 
     launch_velocity = (
@@ -97,25 +106,31 @@ class Info:
     return launch_velocity
 
   @staticmethod
-  def get_fuel():
+  def get_fuel() -> float:
+    """ returns amount of liquid fuel left in kg """
     return Info.vessel.resources.amount('LiquidFuel')
 
   @staticmethod
-  def get_monofuel():
+  def get_monofuel() -> float:
+    """ returns amount of monofuel left in kg """
     return Info.vessel.resources.amount('MonoFuel')
 
   @staticmethod
-  def get_vertical_speed():
+  def get_vertical_speed() -> float:
+    """ returns vertical speed relatively to the surface of the orbit body """
     return Info.vessel.flight(Info.vessel.orbit.body.reference_frame).vertical_speed
 
   @staticmethod
-  def get_horizontal_speed():
+  def get_horizontal_speed() -> float:
+    """ returns horizontal speed relatively to the surface of the orbit body """
     return Info.vessel.flight(Info.vessel.orbit.body.reference_frame).horizontal_speed
 
   @staticmethod
-  def get_vertical_speed_coordinates():
-    return (Info.get_launch_coordinates()[0],  Info.get_vertical_speed())
+  def get_vertical_speed_coordinates() -> (float, float):
+    """ returns pair (height, vertical_speed) for plot drawing """
+    return (Info.get_launch_coordinates()[1],  Info.get_vertical_speed())
   
   @staticmethod
-  def get_horizontal_speed_coordinates():
-    return (Info.get_launch_coordinates()[0],  Info.get_horizontal_speed())
+  def get_horizontal_speed_coordinates() -> (float, float):
+    """ returns pair (height, horizontal_speed) for plot drawing """
+    return (Info.get_launch_coordinates()[1],  Info.get_horizontal_speed())
