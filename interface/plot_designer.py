@@ -1,7 +1,7 @@
 from interface.window import *
 
 class Plot():
-  def __init__(self, title: str, y_name: str, x_name: str, predict_function, monitor_function):
+  def __init__(self, title: str, y_name: str, x_name: str, predict_function, monitor_function) -> None:
     """
     this constructor initializes the plot body
     """
@@ -29,11 +29,15 @@ class Plot():
     self.real_trajectory_x = []
 
       
-  def get_widget(self):
+  def get_widget(self) -> QWidget:
+    """ returns widget of the InfoWidget class instance """
     return self.graph_widget
 
-  def monitor(self):
-    
+  def monitor(self) -> None:
+    """
+    function updates information
+    on the screen
+    """
     point = self.monitor_function()
     pen = pyqtgraph.mkPen(color=(255, 0, 0), width=1)
 
