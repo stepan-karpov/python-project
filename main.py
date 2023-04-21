@@ -7,15 +7,15 @@ if __name__ == "__main__":
   window = MainWindow()
   window.start_application()
 
+  # Info.vessel.control.throttle=1
+  # time.sleep(1)
+  # print("Launch!")
 
-  # Info.vessel.auto_pilot.target_pitch_and_heading(90,90)
-  # Info.vessel.auto_pilot.engage()
-  Info.vessel.control.throttle=1
-  time.sleep(1)
-  print("Launch!")
+  # Info.vessel.control.activate_next_stage()
 
-  Info.vessel.control.activate_next_stage()
-
-  while (True):
-    print(Info.get_launch_coordinates())
-    time.sleep(2)
+  # while (True):
+  #   # print(Info.vessel.flight().speed)
+  #   print(Info.get_mass())
+  #   print(Info.get_ttw())
+  #   print("=================")
+  #   time.sleep(0.5)

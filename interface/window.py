@@ -78,7 +78,7 @@ class MainWindow(QMainWindow):
     layout = QGridLayout()
 
     self.trajectory_plot = Plot("trajectory plot", "r_y, m", "r_x, m", Trajectory.get_r_y_r_x, Info.get_launch_coordinates)
-    self.ttw_plot = Plot("ttw plot", "ttw", "r_y, m", Trajectory.get_ttw_r_x, Info.get_launch_coordinates)
+    self.ttw_plot = Plot("ttw plot", "ttw", "r_y, m", Trajectory.get_ttw_r_x, Info.get_ttw_coordinates)
     self.hvelocity_plot = Plot("horizontal velocity plot", "v_h. m/s", "r_y, m", Trajectory.get_r_y_r_x, Info.get_launch_coordinates)
     self.vvelocity_plot = Plot("vertical velocity plot", "v_v, m/s", "r_y, m", Trajectory.get_r_y_r_x, Info.get_launch_coordinates)
 
@@ -99,12 +99,12 @@ class MainWindow(QMainWindow):
 
     return scroll
 
-  def update_state(self):
+  def update_state(self) -> None:
     if (not self.start_button.in_flight):
       return
 
     self.trajectory_plot.monitor()
-    # self.ttw_plot.monitor()
+    self.ttw_plot.monitor()
     self.hvelocity_plot.monitor()
     self.vvelocity_plot.monitor()
 
