@@ -7,43 +7,7 @@ from interface.interface_constants import *
 from interface.trajectory_calculation_constants import *
 from flight_info.info import Info
 from trajectory_calculation.trajectory_predictor import Trajectory
-
-
-class Plot():
-  def __init__(self, title, y_name, x_name):
-    self.graph_widget = pyqtgraph.PlotWidget()
-
-    self.graph_widget.setTitle(title, color="black", size="10pt")
-
-    styles = {'color':'black', 'font-size':'15px'}
-    self.graph_widget.setLabel('left', y_name, **styles)
-    self.graph_widget.setLabel('bottom', x_name, **styles)
-    self.graph_widget.setBackground('grey')
-    self.graph_widget.setBackground('#bbccaa')
-
-    self.graph_widget.showGrid(x=True, y=True)
-
-
-
-    self.predict_trajectory_y, self.predict_trajectory_x = Trajectory.get_r_y_r_x()
-    pen = pyqtgraph.mkPen(color=(0, 0, 0), width=3)
-    self.graph_widget.plot(self.predict_trajectory_y, self.predict_trajectory_x, pen=pen)
-
-    self.real_trajectory_y = []
-    self.real_trajectory_x = []
-
-      
-  def get_widget(self):
-    return self.graph_widget
-
-  def add_predict_point(self, point):
-    pen = pyqtgraph.mkPen(color=(0, 0, 0), width=3)
-
-    self.real_trajectory_y.append(point[0])
-    self.real_trajectory_x.append(point[1])
-
-    # self.graph_widget.clear()
-    self.graph_widget.plot(self.real_trajectory_y, self.real_trajectory_x, pen=pen)
+from interface.plot_designer import Plot
 
 
 class InfoWidget():
@@ -113,10 +77,10 @@ class MainWindow(QMainWindow):
   def scroll_widget(self):
     layout = QGridLayout()
 
-    self.trajectory_plot = Plot("trajectory plot", "r_y, m", "r_x, m")
-    self.ttw_plot = Plot("ttw plot", "ttw", "r_y, m")
-    self.hvelocity_plot = Plot("horizontal velocity plot", "v_h. m/s", "r_y, m")
-    self.vvelocity_plot = Plot("vertical velocity plot", "v_v, m/s", "r_y, m")
+    self.trajectory_plot = Plot("trajectory plot", "r_y, m", "r_x, m", Trajectory.get_r_y_r_x, Info.get_launch_coordinates)
+    self.ttw_plot = Plot("ttw plot", "ttw", "r_y, m", Trajectory.get_ttw_r_x, Info.get_launch_coordinates)
+    self.hvelocity_plot = Plot("horizontal velocity plot", "v_h. m/s", "r_y, m", Trajectory.get_r_y_r_x, Info.get_launch_coordinates)
+    self.vvelocity_plot = Plot("vertical velocity plot", "v_v, m/s", "r_y, m", Trajectory.get_r_y_r_x, Info.get_launch_coordinates)
 
     layout.addWidget(self.trajectory_plot.get_widget(), 0, 0)
     layout.addWidget(self.ttw_plot.get_widget(), 1, 0)
@@ -139,8 +103,10 @@ class MainWindow(QMainWindow):
     if (not self.start_button.in_flight):
       return
 
-    self.trajectory_plot.add_predict_point(Info.get_launch_coordinates())
-
+    self.trajectory_plot.monitor()
+    # self.ttw_plot.monitor()
+    self.hvelocity_plot.monitor()
+    self.vvelocity_plot.monitor()
 
   def __init__(self):
     self.app = QApplication(sys.argv)
@@ -179,6 +145,3 @@ class MainWindow(QMainWindow):
   def start_application(self):
     self.show()
     sys.exit(self.app.exec())
-
-
-
