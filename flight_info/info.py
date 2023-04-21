@@ -17,40 +17,46 @@ class Info:
 
   kerbin_radius = start_coordinates[0] * rotation_matrix[0][0] + start_coordinates[1] * rotation_matrix[0][1]
 
-  @classmethod
-  def get_kerbin_coordinates(cls):
-    return cls.vessel.position(cls.vessel.orbit.body.reference_frame)
+  @staticmethod
+  def get_kerbin_coordinates() -> (float, float, float):
+    """
+    this function returns kerbin coordinated relatively to Kerbin origin
+
+    you can see it here:
+    https://krpc.github.io/krpc/tutorials/reference-frames.html#introduction
+    """
+    return Info.vessel.position(Info.vessel.orbit.body.reference_frame)
   
-  @classmethod
-  def kerbin_to_launch_coordinates(cls, current_kerbin_coordinates):
+  @staticmethod
+  def kerbin_to_launch_coordinates(current_kerbin_coordinates) -> (float, float):
+    """
+    this function transforms kerbin coordinated (from API) to launch system
+    """
     rotated_coordinates = (
-      -current_kerbin_coordinates[0] * cls.rotation_matrix[1][0] - current_kerbin_coordinates[1] * cls.rotation_matrix[1][1], 
-      current_kerbin_coordinates[0] * cls.rotation_matrix[0][0] + current_kerbin_coordinates[1] * cls.rotation_matrix[0][1] - cls.kerbin_radius, 
+      -current_kerbin_coordinates[0] * Info.rotation_matrix[1][0] - current_kerbin_coordinates[1] * Info.rotation_matrix[1][1], 
+      current_kerbin_coordinates[0] * Info.rotation_matrix[0][0] + current_kerbin_coordinates[1] * Info.rotation_matrix[0][1] - Info.kerbin_radius, 
     )
     return rotated_coordinates
 
-  @classmethod
-  def get_launch_coordinates(cls):
+  @staticmethod
+  def get_launch_coordinates() -> (float, float):
+    """
+    returns coordinates in launch system
+    """
     current_kerbin_coordinates = (
-      cls.vessel.position(cls.vessel.orbit.body.reference_frame)[2],
-      cls.vessel.position(cls.vessel.orbit.body.reference_frame)[0],
+      Info.vessel.position(Info.vessel.orbit.body.reference_frame)[2],
+      Info.vessel.position(Info.vessel.orbit.body.reference_frame)[0],
     )
-    return cls.kerbin_to_launch_coordinates(current_kerbin_coordinates)
+    return Info.kerbin_to_launch_coordinates(current_kerbin_coordinates)
+  
+  @staticmethod
+  def get_mass():
+    return Info.vessel.mass
 
+  @staticmethod
+  def get_ttw():
+    return Info.vessel.flight().g_force
 
-
-# flight_info = vessel.flight()
-# vessel.auto_pilot.target_pitch_and_heading(90, 90)
-# vessel.auto_pilot.engage()
-# vessel.control.throttle=1
-
-# print("Launch!")
-# vessel.control.activate_next_stage()
-
-# time.sleep(1)
-
-# while True:
-#     current_height = flight_info.mean_altitude
-#     vessel.auto_pilot.target_pitch_and_heading(90, 90)
-#     vessel.auto_pilot.target_pitch_and_heading(calculate_angle(current_height), 90)
-
+  @staticmethod
+  def get_ttw_coordinates():
+    return (Info.get_launch_coordinates()[1], Info.vessel.flight().g_force)
