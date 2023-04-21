@@ -1,7 +1,10 @@
 from interface.window import *
 
 class InfoWidget():
-  def __init__(self, flight_data, vessel_data):
+  def __init__(self, flight_data: tuple, vessel_data: tuple):
+    """
+    constructor for info widget
+    """
     text_layout = QHBoxLayout()
 
     text_layout.addWidget(self.create_flight_info_widget('grey', flight_data, "fligh data"))
@@ -9,7 +12,10 @@ class InfoWidget():
     self.control_widget = QWidget()
     self.control_widget.setLayout(text_layout)
 
-  def create_flight_info_widget(self, color, data, header):
+  def create_flight_info_widget(self, color: str, data: str, header: str) -> QWidget:
+    """
+    function creates flight_info part of the info widget
+    """
     self.info_widget = QWidget()
     self.info_widget.setAutoFillBackground(True)
 
@@ -41,7 +47,10 @@ class InfoWidget():
 
     return self.info_widget
 
-  def create_vessel_data_widget(self, color, data, header):
+  def create_vessel_data_widget(self, color: str, data: str, header: str) -> QWidget:
+    """
+    function creates vessel_info part of the info widget
+    """
     self.info_widget = QWidget()
     self.info_widget.setAutoFillBackground(True)
 
@@ -73,10 +82,15 @@ class InfoWidget():
 
     return self.info_widget
 
-  def get_widget(self):
+  def get_widget(self) -> QWidget:
+    """ returns widget of the InfoWidget class instance """
     return self.control_widget
 
-  def monitor(self):
+  def monitor(self) -> None:
+    """
+    function updates information
+    on the screen
+    """
     for label in self.vessel_info_labels:
       value = label[2]()
       if (value < 0.001):
