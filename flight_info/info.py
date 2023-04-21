@@ -62,7 +62,7 @@ class Info:
   @staticmethod
   def get_g():
     rel = (Info.get_launch_coordinates()[1] + Info.kerbin_radius) / Info.kerbin_radius
-    rel = math.pow(rel, 2)
+    rel = math.pow(rel, -2)
     return rel * G_CONSTANT
   
   @staticmethod
@@ -104,3 +104,18 @@ class Info:
   def get_monofuel():
     return Info.vessel.resources.amount('MonoFuel')
 
+  @staticmethod
+  def get_vertical_speed():
+    return Info.vessel.flight(Info.vessel.orbit.body.reference_frame).vertical_speed
+
+  @staticmethod
+  def get_horizontal_speed():
+    return Info.vessel.flight(Info.vessel.orbit.body.reference_frame).horizontal_speed
+
+  @staticmethod
+  def get_vertical_speed_coordinates():
+    return (Info.get_launch_coordinates()[0],  Info.get_vertical_speed())
+  
+  @staticmethod
+  def get_horizontal_speed_coordinates():
+    return (Info.get_launch_coordinates()[0],  Info.get_horizontal_speed())
