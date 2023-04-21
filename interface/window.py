@@ -38,9 +38,9 @@ class MainWindow(QMainWindow):
     layout = QGridLayout()
 
     self.trajectory_plot = Plot("trajectory plot", "r_y, m", "r_x, m", Trajectory.get_r_y_r_x, Info.get_launch_coordinates)
-    self.ttw_plot = Plot("ttw plot", "ttw", "r_y, m", Trajectory.get_ttw_r_x, Info.get_ttw_coordinates)
-    self.hvelocity_plot = Plot("horizontal velocity plot", "v_h. m/s", "r_y, m", Trajectory.get_r_y_r_x, Info.get_launch_coordinates)
-    self.vvelocity_plot = Plot("vertical velocity plot", "v_v, m/s", "r_y, m", Trajectory.get_r_y_r_x, Info.get_launch_coordinates)
+    self.ttw_plot = Plot("ttw plot", "ttw", "r_y, m", Trajectory.get_ttw_r_y, Info.get_ttw_coordinates)
+    self.hvelocity_plot = Plot("horizontal velocity plot", "v_h. m/s", "r_y, m", Trajectory.get_v_x_r_y, Info.get_vertical_speed_coordinates)
+    self.vvelocity_plot = Plot("vertical velocity plot", "v_v, m/s", "r_y, m", Trajectory.get_v_y_r_y, Info.get_horizontal_speed_coordinates)
 
     layout.addWidget(self.trajectory_plot.get_widget(), 0, 0)
     layout.addWidget(self.ttw_plot.get_widget(), 1, 0)

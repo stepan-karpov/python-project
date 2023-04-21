@@ -14,6 +14,7 @@ if __name__ == "__main__":
   # Info.vessel.control.activate_next_stage()
 
   # while (True):
-  #   print(Info.vessel.flight(Info.vessel.orbit.body.reference_frame).speed)
+  #   print(Info.get_vertical_speed_coordinates())
+  #   print(Info.get_horizontal_speed_coordinates())
   #   print("=================")
   #   time.sleep(0.5)
