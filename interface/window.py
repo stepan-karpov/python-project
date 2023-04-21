@@ -12,35 +12,44 @@ from interface.info_designer import InfoWidget
 
 
 class StartButton():
-  def __init__(self):
+  def __init__(self) -> None:
+    """
+    constructor which initiates some button traits
+    """
     self.in_flight = False
     self.start_button = QPushButton('Launch vessel!')
     self.start_button.setStyleSheet("background-color : green")
     self.start_button.clicked.connect(self.on_click)
   
-  def get_widget(self):
+  def get_widget(self) -> QWidget:
+    """ returns a widget of the button """
     return self.start_button
 
-  def on_click(self):
+  def on_click(self) -> None:
+    """ 
+    launches the vessel by the launchh click
+    """
     if (self.in_flight):
       sys.exit()
     
     Info.vessel.control.throttle=0.45
     print("Launch!")
 
-
     self.in_flight = True
     self.start_button.setText("Launched!")
     self.start_button.setStyleSheet("background-color : red")
 
 class MainWindow(QMainWindow):
-  def scroll_widget(self):
+  def scroll_widget(self) -> QScrollArea:
+    """
+    creates scroll widget with plots
+    """
     layout = QGridLayout()
 
     self.trajectory_plot = Plot("trajectory plot", "r_y, m", "r_x, m", Trajectory.get_r_y_r_x, Info.get_launch_coordinates)
     self.ttw_plot = Plot("ttw plot", "ttw", "r_y, m", Trajectory.get_ttw_r_y, Info.get_ttw_coordinates)
-    self.hvelocity_plot = Plot("horizontal velocity plot", "v_h. m/s", "r_y, m", Trajectory.get_v_x_r_y, Info.get_vertical_speed_coordinates)
-    self.vvelocity_plot = Plot("vertical velocity plot", "v_v, m/s", "r_y, m", Trajectory.get_v_y_r_y, Info.get_horizontal_speed_coordinates)
+    self.hvelocity_plot = Plot("horizontal velocity plot", "v_h. m/s", "r_y, m", Trajectory.get_v_x_r_y, Info.get_horizontal_speed_coordinates)
+    self.vvelocity_plot = Plot("vertical velocity plot", "v_v, m/s", "r_y, m", Trajectory.get_v_y_r_y, Info.get_vertical_speed_coordinates)
 
     layout.addWidget(self.trajectory_plot.get_widget(), 0, 0)
     layout.addWidget(self.ttw_plot.get_widget(), 1, 0)
@@ -60,6 +69,9 @@ class MainWindow(QMainWindow):
     return scroll
 
   def update_state(self) -> None:
+    """
+    updates data on the screen
+    """
     if (not self.start_button.in_flight):
       return
 
@@ -69,7 +81,11 @@ class MainWindow(QMainWindow):
     self.vvelocity_plot.monitor()
     self.info.monitor()
 
-  def __init__(self):
+  def __init__(self) -> None:
+    """
+    constructor to build containers and
+    create a whole application structure
+    """
     self.app = QApplication(sys.argv)
     super(MainWindow, self).__init__()
 
@@ -103,6 +119,7 @@ class MainWindow(QMainWindow):
     self.timer.timeout.connect(self.update_state)
     self.timer.start()
 
-  def start_application(self):
+  def start_application(self) -> None:
+    """ driver of application """
     self.show()
     sys.exit(self.app.exec())
