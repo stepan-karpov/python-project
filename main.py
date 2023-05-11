@@ -1,8 +1,8 @@
 import sys
-from interface.window import MainWindow
+from interface.window import ApplicationDriver
 from flight_info.info import Info
 import time
 
 if __name__ == "__main__":
-  window = MainWindow()
-  window.start_application()
+  application = ApplicationDriver()
+  application.start_application()

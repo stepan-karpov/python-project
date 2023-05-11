@@ -39,7 +39,7 @@ class StartButton():
     self.start_button.setText("Launched!")
     self.start_button.setStyleSheet("background-color : red")
 
-class MainWindow(QMainWindow):
+class ApplicationDriver(QMainWindow):
   def scroll_widget(self) -> QScrollArea:
     """
     creates scroll widget with plots
@@ -87,7 +87,7 @@ class MainWindow(QMainWindow):
     create a whole application structure
     """
     self.app = QApplication(sys.argv)
-    super(MainWindow, self).__init__()
+    super(ApplicationDriver, self).__init__()
 
     self.setWindowTitle("KSP Launcher")
     screen = self.app.primaryScreen()
